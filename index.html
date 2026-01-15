@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر القهوة - الرئيسية</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .product-card:hover .cart-btn {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #f59e0b;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to left, #f59e0b, #d97706);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Mobile improvements */
+        @media (max-width: 768px) {
+            .px-32 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .section-title::after {
+                width: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col font-[Cairo]">
+    <!-- Navbar placeholder -->
+    <div id="navbar"></div>
+
+    <!-- Main content -->
+    <main class="px-4 md:px-32 py-10">
+        <!-- Hero Banner -->
+        <div class="mb-16 fade-in-up">
+            <img class="w-full h-[300px] md:h-[350px] object-cover rounded-2xl shadow-lg"
+                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="متجر القهوة - أجود أنواع القهوة والأدوات">
+        </div>
+
+        <!-- Categories Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 section-title">الأقسام</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <!-- Category Cards -->
+                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-coffee text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">القهوة</h3>
+                    <p class="text-sm text-gray-600">20 منتج</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-mug-hot text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">الأكواب</h3>
+                    <p class="text-sm text-gray-600">15 منتج</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-blender text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">الأدوات</h3>
+                    <p class="text-sm text-gray-600">25 منتج</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-coffee-pot text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">الماكينات</h3>
+                    <p class="text-sm text-gray-600">10 منتج</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-gifts text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">الهدايا</h3>
+                    <p class="text-sm text-gray-600">30 منتج</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-fire text-pink-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">المحمصة</h3>
+                    <p class="text-sm text-gray-600">8 منتج</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Selling Products -->
+        <section class="mb-16">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 section-title">المنتجات الأكثر مبيعاً</h2>
+                <a href="#" class="text-yellow-600 hover:text-yellow-700 font-medium flex items-center gap-2">
+                    عرض الكل <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            
+            <div id="best-selling-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Products will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Middle Banner -->
+        <div class="mb-16 fade-in-up">
+            <img class="w-full h-[250px] md:h-[350px] object-cover rounded-2xl shadow-lg"
+                src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="عروض خاصة على أدوات القهوة">
+        </div>
+
+        <!-- Discounts Section -->
+        <section class="mb-16">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 section-title">خصومات اليوم</h2>
+                <a href="#" class="text-yellow-600 hover:text-yellow-700 font-medium flex items-center gap-2">
+                    عرض الكل <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            
+            <div id="discounts-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Discount products will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 section-title">آراء العملاء</h2>
+            
+            <div class="bg-gradient-to-l from-blue-50 to-cyan-50 rounded-2xl p-6 md:p-8 shadow-lg">
+                <!-- Reviews Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">تقيمات العملاء</h3>
+                        <div class="flex items-center gap-2">
+                            <div class="flex">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="text-gray-600">(4.9/5 بناءً على 248 تقييم)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <input type="text" placeholder="البحث في التقييمات..." 
+                                class="pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none w-64">
+                            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                        </div>
+                        
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
+                            <i class="fas fa-plus"></i> تقييم جديد
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Reviews Grid -->
+                <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Reviews will be loaded here -->
+                </div>
+                
+         
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer placeholder -->
+    <div id="footer"></div>
+
+    <!-- Product Card Template -->
+    <template id="product-template">
+        <div class="product-card bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col">
+            <div class="relative mb-4">
+                <img src="" alt="" class="w-full h-48 object-contain product-image rounded-lg">
+                <span class="absolute top-2 right-2 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">
+                    الأكثر مبيعاً
+                </span>
+            </div>
+            
+            <p class="text-sm text-gray-500 mb-1 category"></p>
+            <h3 class="font-semibold text-lg mb-1 text-gray-800 name"></h3>
+            <p class="text-sm text-gray-600 mb-3 description line-clamp-2"></p>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div class="flex items-center gap-1">
+                    <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" 
+                         alt="ريال" class="w-5 h-5 object-contain">
+                    <span class="font-bold text-xl text-yellow-600 price"></span>
+                </div>
+                
+                <button class="cart-btn w-12 h-12 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center text-white transition-all duration-300">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Discount Product Template -->
+    <template id="discount-template">
+        <div class="product-card bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col">
+            <div class="relative mb-4">
+                <img src="" alt="" class="w-full h-48 object-contain product-image rounded-lg">
+                <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded discount-badge">
+                    خصم %
+                </span>
+            </div>
+            
+            <p class="text-sm text-gray-500 mb-1 category"></p>
+            <h3 class="font-semibold text-lg mb-1 text-gray-800 name"></h3>
+            <p class="text-sm text-gray-600 mb-3 description line-clamp-2"></p>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div>
+                    <div class="flex items-center gap-1">
+                        <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" 
+                             alt="ريال" class="w-5 h-5 object-contain">
+                        <span class="font-bold text-xl text-yellow-600 price"></span>
+                    </div>
+                    <div class="flex items-center gap-1 text-sm text-gray-500">
+                        <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" 
+                             alt="ريال" class="w-4 h-4 object-contain">
+                        <span class="line-through old-price"></span>
+                    </div>
+                </div>
+                
+                <button class="cart-btn w-12 h-12 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center text-white transition-all duration-300">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Review Card Template -->
+    <template id="review-template">
+        <div class="review-card bg-white rounded-xl shadow border border-gray-200 p-5 transition-all duration-300">
+            <div class="flex items-start gap-3 mb-4">
+                <img src="" alt="" class="w-12 h-12 rounded-full border-2 border-white shadow review-avatar">
+                <div class="flex-1">
+                    <h4 class="font-bold text-gray-800 review-name"></h4>
+                    <p class="text-sm text-gray-600 review-product"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2 mb-3">
+                <div class="flex review-stars"></div>
+                <span class="text-sm text-gray-500 review-date"></span>
+            </div>
+            
+            <p class="text-gray-700 mb-4 review-comment"></p>
+            
+            <div class="flex items-center justify-between">
+                <button class="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1">
+                    <i class="fas fa-thumbs-up"></i> مفيد
+                </button>
+                <span class="text-sm text-gray-500">
+                    <i class="fas fa-globe"></i> منشور
+                </span>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // Load navbar and footer from external files
+        fetch("../partials/navbar.html")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("navbar").innerHTML = data;
+                // Initialize cart count after navbar is loaded
+                updateCartCount();
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+
+        fetch("../partials/footer.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("footer").innerHTML = data)
+            .catch(error => console.error("Error loading footer:", error));
+
+        // Products Data (Best Selling)
+        const bestSellingProducts = [
+            {
+                id: 1,
+                name: "طاحونة قهوة يدوية",
+                category: "أدوات القهوة",
+                price: "50.00",
+                image: "https://i.imgur.com/5XK0ZQp.png",
+                description: "طاحونة قهوة يدوية مصنوعة من الخشب عالي الجودة مع شفرات سيراميك."
+            },
+            {
+                id: 2,
+                name: "كوب قهوة سيراميك",
+                category: "الأكواب",
+                price: "25.00",
+                image: "https://i.imgur.com/9U3Zz6F.png",
+                description: "كوب قهوة سيراميك بسعة 350 مل مع تصميم عصري ومقاوم للحرارة."
+            },
+            {
+                id: 3,
+                name: "قهوة أرابيكا",
+                category: "القهوة",
+                price: "30.00",
+                image: "https://i.imgur.com/JK7q3cD.png",
+                description: "قهوة أرابيكا محمصة حديثاً 250 جرام مع نكهات غنية ومتعددة."
+            },
+            {
+                id: 4,
+                name: "مجموعة أكواب سيراميك",
+                category: "الأكواب",
+                price: "65.00",
+                image: "https://i.imgur.com/hVQpF5z.png",
+                description: "مجموعة من 4 أكواب سيراميك بحجم 300 مل بتصاميم متنوعة."
+            }
+        ];
+
+        // Discount Products Data
+        const discountProducts = [
+            {
+                id: 5,
+                name: "آلة إسبريسو منزلية",
+                category: "الماكينات",
+                price: "399.99",
+                oldPrice: "450.00",
+                discount: "11%",
+                image: "https://i.imgur.com/MRkZ9dD.png",
+                description: "آلة إسبريسو منزلية متعددة الاستخدامات مع خزان مياه سعة 1.5 لتر."
+            },
+            {
+                id: 6,
+                name: "مكبس فرنسي",
+                category: "أدوات القهوة",
+                price: "29.99",
+                oldPrice: "35.00",
+                discount: "14%",
+                image: "https://i.imgur.com/k8Z9p9n.png",
+                description: "مكبس فرنسي زجاجي بسعة 1 لتر مع فلتر ستانلس ستيل."
+            },
+            {
+                id: 7,
+                name: "آلة قهوة بالتقطير",
+                category: "الماكينات",
+                price: "99.99",
+                oldPrice: "120.00",
+                discount: "17%",
+                image: "https://i.imgur.com/mW2NQKc.png",
+                description: "آلة قهوة بالتقطير مع مؤقت وإعدادات متعددة لدرجة التحميص."
+            },
+            {
+                id: 8,
+                name: "مقياس حرارة رقمي",
+                category: "أدوات القهوة",
+                price: "15.99",
+                oldPrice: "20.00",
+                discount: "20%",
+                image: "https://i.imgur.com/n5LQ8Wx.png",
+                description: "مقياس حرارة رقمي للمشروبات مع شاشة LCD وقياس سريع."
+            }
+        ];
+
+        // Reviews Data
+        const reviewsData = [
+            {
+                name: "أحمد محمد",
+                product: "طاحونة قهوة يدوية",
+                date: "11-10-2025",
+                rating: 5,
+                comment: "هذه الطاحونة رائعة! تعطيني طحن متناسق لكل حبة قهوة. الجودة عالية والسعر مناسب.",
+                avatar: "https://i.pravatar.cc/150?img=1"
+            },
+            {
+                name: "سارة عبدالله",
+                product: "مجموعة أكواب سيراميك",
+                date: "08-10-2025",
+                rating: 4,
+                comment: "الأكواب جميلة وتحمّل درجة الحرارة العالية. التصميمات متنوعة والجودة ممتازة.",
+                avatar: "https://i.pravatar.cc/150?img=5"
+            },
+            {
+                name: "خالد القحطاني",
+                product: "آلة إسبريسو منزلية",
+                date: "05-10-2025",
+                rating: 5,
+                comment: "آلة رائعة وسهلة الاستخدام. الإسبريسو يخرج مثالياً والماكينة مصنوعة بجودة عالية.",
+                avatar: "https://i.pravatar.cc/150?img=8"
+            }
+        ];
+
+        // Cart state
+        let cart = [];
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load products
+            loadBestSellingProducts();
+            loadDiscountProducts();
+            loadReviews();
+            
+            // Load cart from localStorage if available
+            loadCartFromStorage();
+        });
+
+        // Load Best Selling Products
+        function loadBestSellingProducts() {
+            const grid = document.getElementById('best-selling-grid');
+            const template = document.getElementById('product-template').content;
+            
+            bestSellingProducts.forEach(product => {
+                const clone = document.importNode(template, true);
+                
+                // Fill product data
+                clone.querySelector('img').src = product.image;
+                clone.querySelector('img').alt = product.name;
+                clone.querySelector('.category').textContent = product.category;
+                clone.querySelector('.name').textContent = product.name;
+                clone.querySelector('.description').textContent = product.description;
+                clone.querySelector('.price').textContent = product.price;
+                
+                // Add to cart functionality
+                const addToCartBtn = clone.querySelector('.cart-btn');
+                addToCartBtn.addEventListener('click', () => addToCart(product));
+                
+                grid.appendChild(clone);
+            });
+        }
+
+        // Load Discount Products
+        function loadDiscountProducts() {
+            const grid = document.getElementById('discounts-grid');
+            const template = document.getElementById('discount-template').content;
+            
+            discountProducts.forEach(product => {
+                const clone = document.importNode(template, true);
+                
+                // Fill product data
+                clone.querySelector('img').src = product.image;
+                clone.querySelector('img').alt = product.name;
+                clone.querySelector('.category').textContent = product.category;
+                clone.querySelector('.name').textContent = product.name;
+                clone.querySelector('.description').textContent = product.description;
+                clone.querySelector('.price').textContent = product.price;
+                clone.querySelector('.old-price').textContent = product.oldPrice;
+                clone.querySelector('.discount-badge').textContent = `خصم ${product.discount}`;
+                
+                // Add to cart functionality
+                const addToCartBtn = clone.querySelector('.cart-btn');
+                addToCartBtn.addEventListener('click', () => addToCart(product));
+                
+                grid.appendChild(clone);
+            });
+        }
+
+        // Load Reviews
+        function loadReviews() {
+            const grid = document.getElementById('reviews-grid');
+            const template = document.getElementById('review-template').content;
+            
+            reviewsData.forEach((review, index) => {
+                const clone = document.importNode(template, true);
+                
+                // Fill review data
+                clone.querySelector('.review-avatar').src = review.avatar;
+                clone.querySelector('.review-avatar').alt = review.name;
+                clone.querySelector('.review-name').textContent = review.name;
+                clone.querySelector('.review-product').textContent = `عن ${review.product}`;
+                clone.querySelector('.review-date').textContent = review.date;
+                clone.querySelector('.review-comment').textContent = review.comment;
+                
+                // Create stars
+                const starsContainer = clone.querySelector('.review-stars');
+                for (let i = 0; i < 5; i++) {
+                    const star = document.createElement('i');
+                    star.className = i < review.rating ? 'fas fa-star text-yellow-400' : 'far fa-star text-gray-300';
+                    starsContainer.appendChild(star);
+                }
+                
+                // Add animation delay
+                clone.querySelector('.review-card').style.animationDelay = `${index * 0.1}s`;
+                clone.querySelector('.review-card').classList.add('fade-in-up');
+                
+                grid.appendChild(clone);
+            });
+        }
+
+        // Add product to cart
+        function addToCart(product) {
+            // Find product in cart
+            const existingItem = cart.find(item => item.id === product.id);
+
+            if (existingItem) {
+                // If product exists, increase quantity
+                existingItem.quantity += 1;
+            } else {
+                // If product doesn't exist, add it
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            // Save cart to localStorage
+            saveCartToStorage();
+
+            // Update cart count
+            updateCartCount();
+
+            // Show success notification
+            showNotification(`تمت إضافة ${product.name} إلى سلة التسوق`);
+        }
+
+        // Update cart items count
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + (item.quantity || 0), 0);
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            // Remove existing notification if present
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification fixed bottom-4 left-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+            notification.textContent = message;
+
+            // Add notification to page
+            document.body.appendChild(notification);
+
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Save cart to localStorage
+        function saveCartToStorage() {
+            localStorage.setItem('coffeeShopCart', JSON.stringify(cart));
+        }
+
+        // Load cart from localStorage
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem('coffeeShopCart');
+
+            if (savedCart) {
+                try {
+                    cart = JSON.parse(savedCart);
+                    updateCartCount();
+                } catch (error) {
+                    console.error('Error loading cart:', error);
+                    cart = [];
+                }
+            }
+        }
+
+        // Add animation to elements on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('fade-in-up');
+                }
+            });
+        }
+
+        // Initial animation
+        setTimeout(() => {
+            document.querySelectorAll('.fade-in-up').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        }, 100);
+
+        // Add scroll event listener for animations
+        window.addEventListener('scroll', animateOnScroll);
+        // Initial check
+        animateOnScroll();
+    </script>
+</body>
+</html>

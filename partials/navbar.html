@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Navbar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* Custom styles for better visual appearance */
+    .nav-link {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      right: 0;
+      width: 0;
+      height: 2px;
+      background-color: #f59e0b;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .search-input {
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+    }
+
+    .cart-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .modal-overlay {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-secondary {
+      border: 2px solid #f59e0b;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #fef3c7;
+      transform: translateY(-1px);
+    }
+
+    .close-btn {
+      transition: all 0.2s ease;
+    }
+
+    .close-btn:hover {
+      transform: rotate(90deg);
+    }
+
+    /* Mobile responsiveness improvements */
+    @media (max-width: 1024px) {
+      .search-container {
+        width: 300px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .nav-links {
+        gap: 2rem;
+      }
+
+      .search-container {
+        width: 250px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .logo-container {
+        order: 1;
+      }
+
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+      }
+
+      .actions-container {
+        order: 2;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .search-container {
+        width: 70%;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- Main Navigation Bar -->
+  <nav class="bg-white shadow-sm nav-container">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between flex-wrap">
+
+      <!-- Logo Section -->
+      <div class="flex items-center gap-2 logo-container">
+        <span class="font-bold text-xl text-gray-900">Brewly</span>
+        <i class="fa-solid fa-circle text-[8px] text-amber-500"></i>
+      </div>
+
+      <!-- Navigation Links -->
+      <ul class="flex gap-8 text-md text-gray-700 nav-links">
+        <li>
+          <a href="/index.html" class="nav-link hover:text-amber-600 transition font-medium">
+            الرئيسية
+          </a>
+        </li>
+        <li>
+          <a href="/pages/products.html" class="nav-link hover:text-amber-600 transition font-medium">
+            المنتجات
+          </a>
+        </li>
+        <li>
+          <a href="/pages/contact.html" class="nav-link hover:text-amber-600 transition font-medium">
+            تواصل معنا
+          </a>
+        </li>
+      </ul>
+
+      <!-- Actions Section -->
+      <div class="flex items-center gap-6 actions-container">
+
+        <!-- Search Bar -->
+        <div class="relative search-container">
+          <input type="text" placeholder="البحث عن منتج..."
+            class="search-input border rounded-lg w-96 px-4 py-2 pr-10 text-sm border-amber-300 outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500" />
+          <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+        </div>
+
+        <!-- User and Cart Icons -->
+        <div class="flex items-center gap-5">
+          <!-- User Icon -->
+          <button onclick="openLoginModal()"
+            class="text-gray-700 hover:text-amber-600 transition p-2 rounded-full hover:bg-amber-50"
+            aria-label="تسجيل الدخول">
+            <i class="fa-regular fa-user text-lg"></i>
+          </button>
+
+          <!-- Cart Icon with Count -->
+          <a href="/pages/cart.html"
+            class="cart-link text-gray-700 hover:text-amber-600 transition p-2 rounded-full hover:bg-amber-50"
+            aria-label="سلة المشتريات">
+            <i class="fa-solid fa-cart-shopping text-lg"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 modal-overlay">
+    <div class="bg-white rounded-2xl w-full max-w-md mx-4 modal-content">
+      <div class="p-8 relative">
+
+        <!-- Close Button -->
+        <button onclick="closeModals()" class="absolute top-6 left-6 text-gray-400 hover:text-red-500 text-xl close-btn"
+          aria-label="إغلاق النافذة">
+          ✕
+        </button>
+
+        <!-- Icon -->
+        <div class="flex justify-center mb-6">
+          <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
+            <i class="fa-regular fa-user text-2xl text-amber-600"></i>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h2 class="text-center text-2xl font-bold text-gray-800 mb-2">تسجيل الدخول</h2>
+        <p class="text-center text-gray-500 text-sm mb-8">أدخل بياناتك للدخول إلى حسابك</p>
+
+        <!-- Form -->
+        <form id="loginForm">
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="login-email">
+              البريد الإلكتروني أو رقم الجوال
+            </label>
+            <input type="text" id="login-email" placeholder="ادخل رقم الجوال أو البريد الإلكتروني"
+              class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+              required>
+          </div>
+
+          <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-semibold text-lg mb-4">
+            دخول
+          </button>
+
+          <button type="button" onclick="openSignupModal()"
+            class="w-full btn-secondary text-amber-600 py-3 rounded-lg font-semibold text-lg">
+            تسجيل جديد
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="flex items-center my-6">
+          <div class="flex-1 border-t border-gray-300"></div>
+          <span class="px-4 text-gray-500 text-sm">أو</span>
+          <div class="flex-1 border-t border-gray-300"></div>
+        </div>
+
+        <!-- Social Login -->
+        <div class="text-center">
+          <p class="text-gray-600 text-sm mb-4">تسجيل الدخول باستخدام</p>
+          <div class="flex justify-center gap-4">
+            <button
+              class="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition">
+              <i class="fab fa-google text-lg"></i>
+            </button>
+            <button
+              class="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition">
+              <i class="fab fa-twitter text-lg"></i>
+            </button>
+            <button
+              class="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition">
+              <i class="fab fa-facebook-f text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signupModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 modal-overlay">
+    <div class="bg-white rounded-2xl w-full max-w-md mx-4 modal-content">
+      <div class="p-8 relative">
+
+        <!-- Close Button -->
+        <button onclick="closeModals()" class="absolute top-6 left-6 text-gray-400 hover:text-red-500 text-xl close-btn"
+          aria-label="إغلاق النافذة">
+          ✕
+        </button>
+
+        <!-- Icon -->
+        <div class="flex justify-center mb-6">
+          <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
+            <i class="fa-regular fa-user-plus text-2xl text-amber-600"></i>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h2 class="text-center text-2xl font-bold text-gray-800 mb-2">تسجيل جديد</h2>
+        <p class="text-center text-gray-500 text-sm mb-8">أنشئ حساب جديد للبدء في التسوق</p>
+
+        <!-- Form -->
+        <form id="signupForm">
+          <!-- Name -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="signup-name">
+              الاسم الكامل
+            </label>
+            <input type="text" id="signup-name" placeholder="اسمك الكريم"
+              class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+              required>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="signup-phone">
+              رقم الجوال
+            </label>
+            <div class="flex gap-2">
+              <div class="relative">
+                <select
+                  class="w-24 border border-gray-300 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 appearance-none bg-white">
+                  <option value="+966">+966</option>
+                  <option value="+20">+20</option>
+                  <option value="+971">+971</option>
+                </select>
+                <i class="fas fa-chevron-down absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              </div>
+              <input type="tel" id="signup-phone" placeholder="5XXXXXXXX"
+                class="flex-1 border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                required>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="signup-email">
+              البريد الإلكتروني
+            </label>
+            <input type="email" id="signup-email" placeholder="example@email.com"
+              class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+              required>
+          </div>
+
+          <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-semibold text-lg mb-4">
+            تسجيل جديد
+          </button>
+
+          <button type="button" onclick="openLoginModal()"
+            class="w-full btn-secondary text-amber-600 py-3 rounded-lg font-semibold text-lg">
+            لديك حساب بالفعل؟ تسجيل دخول
+          </button>
+        </form>
+
+        <!-- Terms -->
+        <p class="text-center text-gray-500 text-xs mt-6">
+          بمجرد التسجيل، فإنك توافق على
+          <a href="#" class="text-amber-600 hover:text-amber-700">شروط الاستخدام</a>
+          و
+          <a href="#" class="text-amber-600 hover:text-amber-700">سياسة الخصوصية</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Modal functions
+    function openLoginModal() {
+      closeModals();
+      const modal = document.getElementById("loginModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function openSignupModal() {
+      closeModals();
+      const modal = document.getElementById("signupModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeModals() {
+      document.getElementById("loginModal").classList.add("hidden");
+      document.getElementById("signupModal").classList.add("hidden");
+      document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+
+    // Close modal when clicking outside
+    document.querySelectorAll("#loginModal, #signupModal").forEach(modal => {
+      modal.addEventListener("click", e => {
+        if (e.target === modal) closeModals();
+      });
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModals();
+    });
+
+    // Form submission handlers
+    document.getElementById('loginForm')?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      // Here you would typically send this to your backend
+      console.log('Login attempt with:', email);
+      alert('تم إرسال طلب تسجيل الدخول!');
+      closeModals();
+    });
+
+    document.getElementById('signupForm')?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const phone = document.getElementById('signup-phone').value;
+      const email = document.getElementById('signup-email').value;
+      // Here you would typically send this to your backend
+      console.log('Signup attempt with:', { name, phone, email });
+      alert('تم إنشاء الحساب بنجاح!');
+      closeModals();
+    });
+
+    // Update cart count from localStorage
+    function updateCartCount() {
+      const cartCountElement = document.getElementById('cart-count');
+      if (cartCountElement) {
+        try {
+          const savedCart = localStorage.getItem('coffeeShopCart');
+          if (savedCart) {
+            const cart = JSON.parse(savedCart);
+            const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+            cartCountElement.textContent = totalItems;
+            cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+          } else {
+            cartCountElement.style.display = 'none';
+          }
+        } catch (error) {
+          console.error('Error updating cart count:', error);
+          cartCountElement.style.display = 'none';
+        }
+      }
+    }
+
+    // Initialize cart count on page load
+    document.addEventListener('DOMContentLoaded', function () {
+      updateCartCount();
+
+
+      setInterval(updateCartCount, 2000);
+    });
+
+    // Search functionality
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput) {
+      searchInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          const query = this.value.trim();
+          if (query) {
+            // Here you would typically redirect to search results page
+            console.log('Searching for:', query);
+            alert(`سيتم البحث عن: ${query}`);
+            this.value = '';
+          }
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

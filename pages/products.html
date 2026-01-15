@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر القهوة</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        .product-card:hover .cart-btn {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #f59e0b;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        /* Mobile improvements */
+        @media (max-width: 640px) {
+            .filter-selects {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-selects select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Navbar placeholder -->
+    <div id="navbar"></div>
+
+    <!-- Main content -->
+    <main class="p-4 md:p-10 bg-gray-100 flex-grow">
+        <div class="max-w-7xl mx-auto">
+            <!-- Top bar with filters and sorting -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+                <!-- Product count -->
+                <div class="text-gray-600 text-lg">
+                    <span id="products-count">0</span> منتج
+                </div>
+
+                <!-- Filter and sort options -->
+                <div class="flex flex-wrap gap-4 filter-selects">
+                    <!-- Category filter -->
+                    <div class="flex items-center gap-2">
+                        <label class="text-sm text-gray-600 block mb-1">تصنيف حسب:</label>
+                        <select
+                            class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                            id="category-filter">
+                            <option value="all">جميع الفئات</option>
+                            <option value="أدوات القهوة">أدوات القهوة</option>
+                            <option value="ماكينات">ماكينات</option>
+                            <option value="أكواب">أكواب</option>
+                            <option value="قهوة">قهوة</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort by -->
+                    <div class="flex items-center gap-2">
+                        <label class="text-sm text-gray-600 block mb-1">ترتيب حسب:</label>
+                        <select
+                            class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                            id="sort-by">
+                            <option value="recommended">مقترحًا</option>
+                            <option value="newest">الأحدث</option>
+                            <option value="price-high">الأعلى سعرًا</option>
+                            <option value="price-low">الأقل سعرًا</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading state -->
+            <div id="loading" class="flex justify-center items-center py-12">
+                <div class="loading-spinner"></div>
+                <span class="mr-3 text-gray-600">جاري تحميل المنتجات...</span>
+            </div>
+
+            <!-- Error message -->
+            <div id="error-message" class="hidden text-center py-12">
+                <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">حدث خطأ في تحميل المنتجات</h3>
+                <p class="text-gray-600 mb-4">تعذر تحميل المنتجات. يرجى المحاولة مرة أخرى.</p>
+                <button id="retry-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg">
+                    إعادة المحاولة
+                </button>
+            </div>
+
+            <!-- Products grid -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Products will be inserted here by JavaScript -->
+            </div>
+
+            <!-- No products message -->
+            <div id="no-products" class="hidden text-center py-12">
+                <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">لا توجد منتجات</h3>
+                <p class="text-gray-600">لم نتمكن من العثور على منتجات تطابق بحثك.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer placeholder -->
+    <div id="footer"></div>
+
+    <script>
+        // Load navbar and footer from external files
+        fetch("../partials/navbar.html")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("navbar").innerHTML = data;
+                // Initialize cart count after navbar is loaded
+                updateCartCount();
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+
+        fetch("../partials/footer.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("footer").innerHTML = data)
+            .catch(error => console.error("Error loading footer:", error));
+
+        // Products JSON data
+        const productsData = {
+            "products": [
+                {
+                    "id": 1,
+                    "name": "طاحونة قهوة يدوية",
+                    "category": "أدوات القهوة",
+                    "price": 50.00,
+                    "image": "https://i.imgur.com/5XK0ZQp.png",
+                    "description": "طاحونة قهوة يدوية مصنوعة من الخشب عالي الجودة مع شفرات سيراميك.",
+                    "featured": true,
+                    "inStock": true,
+                    "dateAdded": "2023-10-15"
+                },
+                {
+                    "id": 2,
+                    "name": "كوب قهوة سيراميك",
+                    "category": "أكواب",
+                    "price": 25.00,
+                    "image": "https://i.imgur.com/9U3Zz6F.png",
+                    "description": "كوب قهوة سيراميك بسعة 350 مل مع تصميم عصري ومقاوم للحرارة.",
+                    "featured": true,
+                    "inStock": true,
+                    "dateAdded": "2023-10-10"
+                },
+                {
+                    "id": 3,
+                    "name": "آلة إسبريسو منزلية",
+                    "category": "ماكينات",
+                    "price": 450.00,
+                    "image": "https://i.imgur.com/MRkZ9dD.png",
+                    "description": "آلة إسبريسو منزلية متعددة الاستخدامات مع خزان مياه سعة 1.5 لتر.",
+                    "featured": false,
+                    "inStock": true,
+                    "dateAdded": "2023-10-05"
+                },
+                {
+                    "id": 4,
+                    "name": "مكبس فرنسي",
+                    "category": "أدوات القهوة",
+                    "price": 35.00,
+                    "image": "https://i.imgur.com/k8Z9p9n.png",
+                    "description": "مكبس فرنسي زجاجي بسعة 1 لتر مع فلتر ستانلس ستيل.",
+                    "featured": true,
+                    "inStock": true,
+                    "dateAdded": "2023-10-01"
+                },
+                {
+                    "id": 5,
+                    "name": "قهوة أرابيكا",
+                    "category": "قهوة",
+                    "price": 30.00,
+                    "image": "https://i.imgur.com/JK7q3cD.png",
+                    "description": "قهوة أرابيكا محمصة حديثاً 250 جرام مع نكهات غنية ومتعددة.",
+                    "featured": true,
+                    "inStock": true,
+                    "dateAdded": "2023-09-28"
+                },
+                {
+                    "id": 6,
+                    "name": "مقياس حرارة رقمي",
+                    "category": "أدوات القهوة",
+                    "price": 20.00,
+                    "image": "https://i.imgur.com/n5LQ8Wx.png",
+                    "description": "مقياس حرارة رقمي للمشروبات مع شاشة LCD وقياس سريع.",
+                    "featured": false,
+                    "inStock": true,
+                    "dateAdded": "2023-09-25"
+                },
+                {
+                    "id": 7,
+                    "name": "آلة قهوة بالتقطير",
+                    "category": "ماكينات",
+                    "price": 120.00,
+                    "image": "https://i.imgur.com/mW2NQKc.png",
+                    "description": "آلة قهوة بالتقطير مع مؤقت وإعدادات متعددة لدرجة التحميص.",
+                    "featured": false,
+                    "inStock": true,
+                    "dateAdded": "2023-09-20"
+                },
+                {
+                    "id": 8,
+                    "name": "مجموعة أكواب سيراميك",
+                    "category": "أكواب",
+                    "price": 65.00,
+                    "image": "https://i.imgur.com/hVQpF5z.png",
+                    "description": "مجموعة من 4 أكواب سيراميك بحجم 300 مل بتصاميم متنوعة.",
+                    "featured": true,
+                    "inStock": true,
+                    "dateAdded": "2023-09-15"
+                }
+            ]
+        };
+
+        // App state
+        let cart = [];
+        let filteredProducts = [];
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // Setup event listeners
+            document.getElementById('category-filter').addEventListener('change', filterAndSortProducts);
+            document.getElementById('sort-by').addEventListener('change', filterAndSortProducts);
+            document.getElementById('retry-btn').addEventListener('click', loadProducts);
+
+            // Load products
+            loadProducts();
+
+            // Load cart from localStorage if available
+            loadCartFromStorage();
+        });
+
+        // Load products function
+        function loadProducts() {
+            // Show loading state and hide errors
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('error-message').classList.add('hidden');
+            document.getElementById('products-grid').innerHTML = '';
+
+            // Simulate data loading (in real case this would be AJAX request)
+            setTimeout(() => {
+                try {
+                    // Use the static data
+                    filteredProducts = [...productsData.products];
+
+                    // Update products count
+                    updateProductsCount(filteredProducts.length);
+
+                    // Hide loading state
+                    document.getElementById('loading').classList.add('hidden');
+
+                    // Display products
+                    filterAndSortProducts();
+                } catch (error) {
+                    console.error('Error loading products:', error);
+
+                    // Hide loading state
+                    document.getElementById('loading').classList.add('hidden');
+
+                    // Show error message
+                    document.getElementById('error-message').classList.remove('hidden');
+                }
+            }, 800);
+        }
+
+        // Filter and sort products
+        function filterAndSortProducts() {
+            const category = document.getElementById('category-filter').value;
+            const sortBy = document.getElementById('sort-by').value;
+
+            // Copy products for filtering
+            let products = [...productsData.products];
+
+            // Apply category filter
+            if (category !== 'all') {
+                products = products.filter(product => product.category === category);
+            }
+
+            // Apply sorting
+            switch (sortBy) {
+                case 'newest':
+                    products.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                    break;
+                case 'price-high':
+                    products.sort((a, b) => b.price - a.price);
+                    break;
+                case 'price-low':
+                    products.sort((a, b) => a.price - b.price);
+                    break;
+                case 'recommended':
+                default:
+                    products.sort((a, b) => b.featured - a.featured);
+                    break;
+            }
+
+            // Save filtered products
+            filteredProducts = products;
+
+            // Update products count
+            updateProductsCount(products.length);
+
+            // Display products
+            displayProducts(products);
+        }
+
+        // Display products in the grid
+        function displayProducts(products) {
+            const productsGrid = document.getElementById('products-grid');
+
+            // Clear the grid
+            productsGrid.innerHTML = '';
+
+            // Check if there are no products
+            if (products.length === 0) {
+                document.getElementById('no-products').classList.remove('hidden');
+                return;
+            }
+
+            // Hide no products message
+            document.getElementById('no-products').classList.add('hidden');
+
+            // Create product cards
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-lg shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col product-card';
+
+                // Product image
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'h-48 flex items-center justify-center mb-4 overflow-hidden rounded-lg';
+
+                const image = document.createElement('img');
+                image.src = product.image;
+                image.alt = product.name;
+                image.className = 'max-h-full object-contain product-image';
+                imageContainer.appendChild(image);
+
+                // Product information
+                const category = document.createElement('p');
+                category.className = 'text-sm text-gray-500 mb-1';
+                category.textContent = product.category;
+
+                const name = document.createElement('h3');
+                name.className = 'font-semibold text-lg mb-1 text-gray-800';
+                name.textContent = product.name;
+
+                const description = document.createElement('p');
+                description.className = 'text-sm text-gray-600 mb-3 line-clamp-2';
+                description.textContent = product.description;
+
+                // Currency image
+                const currencyImg = document.createElement('img');
+                currencyImg.src = 'https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png'; // عدل المسار حسب مكان الصورة
+                currencyImg.alt = 'ريال';
+                currencyImg.className = 'w-5 h-5 object-contain';
+                // Bottom row with price and button
+                const bottomRow = document.createElement('div');
+                bottomRow.className = 'flex items-center justify-between mt-auto';
+
+                // Price wrapper
+                const priceWrapper = document.createElement('div');
+                priceWrapper.className = 'flex items-center gap-2';
+
+
+                // Price number
+                const priceValue = document.createElement('span');
+                priceValue.className = 'font-bold text-xl text-yellow-600';
+                priceValue.textContent = product.price.toFixed(2);
+
+                // Append price parts
+                priceWrapper.appendChild(currencyImg);
+                priceWrapper.appendChild(priceValue);
+
+
+                const button = document.createElement('button');
+                button.className = 'w-12 h-12 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center text-white cart-btn transition-all duration-300';
+                button.innerHTML = '<i class="fa-solid fa-cart-shopping"></i>';
+                button.setAttribute('data-product-id', product.id);
+                button.addEventListener('click', () => addToCart(product));
+
+                // Append price and button to bottom row
+                bottomRow.appendChild(priceWrapper);
+                bottomRow.appendChild(button);
+                // Append all elements to product card
+                productCard.appendChild(imageContainer);
+                productCard.appendChild(category);
+                productCard.appendChild(name);
+                productCard.appendChild(description);
+                productCard.appendChild(bottomRow);
+
+                // Add product card to grid
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Update displayed products count
+        function updateProductsCount(count) {
+            document.getElementById('products-count').textContent = count;
+        }
+
+        // Add product to cart
+        function addToCart(product) {
+            // Find product in cart
+            const existingItem = cart.find(item => item.id === product.id);
+
+            if (existingItem) {
+                // If product exists, increase quantity
+                existingItem.quantity += 1;
+            } else {
+                // If product doesn't exist, add it
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            // Save cart to localStorage
+            saveCartToStorage();
+
+            // Update cart count
+            updateCartCount();
+
+            // Show success notification
+            showNotification(`تمت إضافة ${product.name} إلى سلة التسوق`);
+        }
+
+        // Update cart items count
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            // Remove existing notification if present
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification fixed bottom-4 left-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+            notification.textContent = message;
+
+            // Add notification to page
+            document.body.appendChild(notification);
+
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Save cart to localStorage
+        function saveCartToStorage() {
+            localStorage.setItem('coffeeShopCart', JSON.stringify(cart));
+        }
+
+        // Load cart from localStorage
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem('coffeeShopCart');
+
+            if (savedCart) {
+                try {
+                    cart = JSON.parse(savedCart);
+                    updateCartCount();
+                } catch (error) {
+                    console.error('Error loading cart:', error);
+                    cart = [];
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
