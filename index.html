@@ -14,11 +14,11 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
-        
+
         body {
             font-family: 'Cairo', sans-serif;
         }
-        
+
         .product-card:hover .cart-btn {
             transform: translateY(0);
             opacity: 1;
@@ -34,8 +34,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .product-image {
@@ -73,6 +78,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -89,7 +95,7 @@
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
-            
+
             .section-title::after {
                 width: 60px;
             }
@@ -115,7 +121,8 @@
             <h2 class="text-2xl font-bold text-gray-800 mb-8 section-title">الأقسام</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                 <!-- Category Cards -->
-                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                <div
+                    class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
                     <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3">
                         <i class="fas fa-coffee text-yellow-600 text-2xl"></i>
                     </div>
@@ -123,7 +130,8 @@
                     <p class="text-sm text-gray-600">20 منتج</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                <div
+                    class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3">
                         <i class="fas fa-mug-hot text-blue-600 text-2xl"></i>
                     </div>
@@ -131,7 +139,8 @@
                     <p class="text-sm text-gray-600">15 منتج</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                <div
+                    class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-3">
                         <i class="fas fa-blender text-green-600 text-2xl"></i>
                     </div>
@@ -139,7 +148,8 @@
                     <p class="text-sm text-gray-600">25 منتج</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                <div
+                    class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
                     <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-3">
                         <i class="fas fa-coffee-pot text-red-600 text-2xl"></i>
                     </div>
@@ -147,7 +157,8 @@
                     <p class="text-sm text-gray-600">10 منتج</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                <div
+                    class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
                     <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-3">
                         <i class="fas fa-gifts text-purple-600 text-2xl"></i>
                     </div>
@@ -155,7 +166,8 @@
                     <p class="text-sm text-gray-600">30 منتج</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
+                <div
+                    class="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center text-center">
                     <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-3">
                         <i class="fas fa-fire text-pink-600 text-2xl"></i>
                     </div>
@@ -173,7 +185,7 @@
                     عرض الكل <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
-            
+
             <div id="best-selling-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <!-- Products will be loaded here -->
             </div>
@@ -194,7 +206,7 @@
                     عرض الكل <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
-            
+
             <div id="discounts-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <!-- Discount products will be loaded here -->
             </div>
@@ -203,7 +215,7 @@
         <!-- Customer Reviews Section -->
         <section class="mb-16">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 section-title">آراء العملاء</h2>
-            
+
             <div class="bg-gradient-to-l from-blue-50 to-cyan-50 rounded-2xl p-6 md:p-8 shadow-lg">
                 <!-- Reviews Header -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -220,26 +232,27 @@
                             <span class="text-gray-600">(4.9/5 بناءً على 248 تقييم)</span>
                         </div>
                     </div>
-                    
+
                     <div class="flex items-center gap-3">
                         <div class="relative">
-                            <input type="text" placeholder="البحث في التقييمات..." 
+                            <input type="text" placeholder="البحث في التقييمات..."
                                 class="pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none w-64">
                             <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                         </div>
-                        
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
+
+                        <button
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
                             <i class="fas fa-plus"></i> تقييم جديد
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Reviews Grid -->
                 <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Reviews will be loaded here -->
                 </div>
-                
-         
+
+
             </div>
         </section>
     </main>
@@ -249,26 +262,28 @@
 
     <!-- Product Card Template -->
     <template id="product-template">
-        <div class="product-card bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col">
+        <div
+            class="product-card bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col">
             <div class="relative mb-4">
                 <img src="" alt="" class="w-full h-48 object-contain product-image rounded-lg">
                 <span class="absolute top-2 right-2 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">
                     الأكثر مبيعاً
                 </span>
             </div>
-            
+
             <p class="text-sm text-gray-500 mb-1 category"></p>
             <h3 class="font-semibold text-lg mb-1 text-gray-800 name"></h3>
             <p class="text-sm text-gray-600 mb-3 description line-clamp-2"></p>
-            
+
             <div class="flex items-center justify-between mt-auto">
                 <div class="flex items-center gap-1">
-                    <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" 
-                         alt="ريال" class="w-5 h-5 object-contain">
+                    <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" alt="ريال"
+                        class="w-5 h-5 object-contain">
                     <span class="font-bold text-xl text-yellow-600 price"></span>
                 </div>
-                
-                <button class="cart-btn w-12 h-12 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center text-white transition-all duration-300">
+
+                <button
+                    class="cart-btn w-12 h-12 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center text-white transition-all duration-300">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </button>
             </div>
@@ -277,33 +292,36 @@
 
     <!-- Discount Product Template -->
     <template id="discount-template">
-        <div class="product-card bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col">
+        <div
+            class="product-card bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 flex flex-col">
             <div class="relative mb-4">
                 <img src="" alt="" class="w-full h-48 object-contain product-image rounded-lg">
-                <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded discount-badge">
+                <span
+                    class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded discount-badge">
                     خصم %
                 </span>
             </div>
-            
+
             <p class="text-sm text-gray-500 mb-1 category"></p>
             <h3 class="font-semibold text-lg mb-1 text-gray-800 name"></h3>
             <p class="text-sm text-gray-600 mb-3 description line-clamp-2"></p>
-            
+
             <div class="flex items-center justify-between mt-auto">
                 <div>
                     <div class="flex items-center gap-1">
-                        <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" 
-                             alt="ريال" class="w-5 h-5 object-contain">
+                        <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" alt="ريال"
+                            class="w-5 h-5 object-contain">
                         <span class="font-bold text-xl text-yellow-600 price"></span>
                     </div>
                     <div class="flex items-center gap-1 text-sm text-gray-500">
-                        <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" 
-                             alt="ريال" class="w-4 h-4 object-contain">
+                        <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-1.png" alt="ريال"
+                            class="w-4 h-4 object-contain">
                         <span class="line-through old-price"></span>
                     </div>
                 </div>
-                
-                <button class="cart-btn w-12 h-12 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center text-white transition-all duration-300">
+
+                <button
+                    class="cart-btn w-12 h-12 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center text-white transition-all duration-300">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </button>
             </div>
@@ -320,14 +338,14 @@
                     <p class="text-sm text-gray-600 review-product"></p>
                 </div>
             </div>
-            
+
             <div class="flex items-center gap-2 mb-3">
                 <div class="flex review-stars"></div>
                 <span class="text-sm text-gray-500 review-date"></span>
             </div>
-            
+
             <p class="text-gray-700 mb-4 review-comment"></p>
-            
+
             <div class="flex items-center justify-between">
                 <button class="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1">
                     <i class="fas fa-thumbs-up"></i> مفيد
@@ -341,7 +359,7 @@
 
     <script>
         // Load navbar and footer from external files
-        fetch("../partials/navbar.html")
+        fetch("./partials/navbar.html")
             .then(res => res.text())
             .then(data => {
                 document.getElementById("navbar").innerHTML = data;
@@ -350,7 +368,7 @@
             })
             .catch(error => console.error("Error loading navbar:", error));
 
-        fetch("../partials/footer.html")
+        fetch("./partials/footer.html")
             .then(res => res.text())
             .then(data => document.getElementById("footer").innerHTML = data)
             .catch(error => console.error("Error loading footer:", error));
@@ -467,12 +485,12 @@
         let cart = [];
 
         // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Load products
             loadBestSellingProducts();
             loadDiscountProducts();
             loadReviews();
-            
+
             // Load cart from localStorage if available
             loadCartFromStorage();
         });
@@ -481,10 +499,10 @@
         function loadBestSellingProducts() {
             const grid = document.getElementById('best-selling-grid');
             const template = document.getElementById('product-template').content;
-            
+
             bestSellingProducts.forEach(product => {
                 const clone = document.importNode(template, true);
-                
+
                 // Fill product data
                 clone.querySelector('img').src = product.image;
                 clone.querySelector('img').alt = product.name;
@@ -492,11 +510,11 @@
                 clone.querySelector('.name').textContent = product.name;
                 clone.querySelector('.description').textContent = product.description;
                 clone.querySelector('.price').textContent = product.price;
-                
+
                 // Add to cart functionality
                 const addToCartBtn = clone.querySelector('.cart-btn');
                 addToCartBtn.addEventListener('click', () => addToCart(product));
-                
+
                 grid.appendChild(clone);
             });
         }
@@ -505,10 +523,10 @@
         function loadDiscountProducts() {
             const grid = document.getElementById('discounts-grid');
             const template = document.getElementById('discount-template').content;
-            
+
             discountProducts.forEach(product => {
                 const clone = document.importNode(template, true);
-                
+
                 // Fill product data
                 clone.querySelector('img').src = product.image;
                 clone.querySelector('img').alt = product.name;
@@ -518,11 +536,11 @@
                 clone.querySelector('.price').textContent = product.price;
                 clone.querySelector('.old-price').textContent = product.oldPrice;
                 clone.querySelector('.discount-badge').textContent = `خصم ${product.discount}`;
-                
+
                 // Add to cart functionality
                 const addToCartBtn = clone.querySelector('.cart-btn');
                 addToCartBtn.addEventListener('click', () => addToCart(product));
-                
+
                 grid.appendChild(clone);
             });
         }
@@ -531,10 +549,10 @@
         function loadReviews() {
             const grid = document.getElementById('reviews-grid');
             const template = document.getElementById('review-template').content;
-            
+
             reviewsData.forEach((review, index) => {
                 const clone = document.importNode(template, true);
-                
+
                 // Fill review data
                 clone.querySelector('.review-avatar').src = review.avatar;
                 clone.querySelector('.review-avatar').alt = review.name;
@@ -542,7 +560,7 @@
                 clone.querySelector('.review-product').textContent = `عن ${review.product}`;
                 clone.querySelector('.review-date').textContent = review.date;
                 clone.querySelector('.review-comment').textContent = review.comment;
-                
+
                 // Create stars
                 const starsContainer = clone.querySelector('.review-stars');
                 for (let i = 0; i < 5; i++) {
@@ -550,11 +568,11 @@
                     star.className = i < review.rating ? 'fas fa-star text-yellow-400' : 'far fa-star text-gray-300';
                     starsContainer.appendChild(star);
                 }
-                
+
                 // Add animation delay
                 clone.querySelector('.review-card').style.animationDelay = `${index * 0.1}s`;
                 clone.querySelector('.review-card').classList.add('fade-in-up');
-                
+
                 grid.appendChild(clone);
             });
         }
@@ -644,11 +662,11 @@
         // Add animation to elements on scroll
         function animateOnScroll() {
             const elements = document.querySelectorAll('.fade-in-up');
-            
+
             elements.forEach(element => {
                 const elementTop = element.getBoundingClientRect().top;
                 const elementVisible = 150;
-                
+
                 if (elementTop < window.innerHeight - elementVisible) {
                     element.classList.add('fade-in-up');
                 }
@@ -668,4 +686,5 @@
         animateOnScroll();
     </script>
 </body>
+
 </html>
